@@ -1,12 +1,31 @@
 var potus;
 var counts = {};
+var ignore = {
+    "the": 'true',
+    "that": 'true',
+    "this": 'true',
+    "what": 'true',
+    "to": 'true',
+    "we": 'true',
+    "of": 'true',
+    "and": 'true',
+    "a": 'true',
+    "http": 'true',
+    "https": 'true',
+    "our": 'true',
+    "will": 'true',
+    "with": 'true',
+    "have": 'true',
+}
 
 function preload() {
     potus = loadJSON('potus.json');
+    //potus = loadJSON('flotus.json');
 }
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
+    textAlign(LEFT);
 
     var tweets = potus.tweets;
     for (var i = 0; i < tweets.length; i++) {
@@ -72,10 +91,14 @@ function setup() {
         var biggestWord = '';
 
         for (var j = 0; j < words.length; j++) {
-            if (wordCounts[word] > biggest) {
+            var word = words[j];
+            if (wordCounts[word] > biggest && !ignore[word] && word.length > 3) {
                 biggest = wordCounts[word];
                 biggestWord = word;
             }
         }
+
+        fill(255);
+        text(biggestWord, i * w, height - h - 5);
     }
 }
